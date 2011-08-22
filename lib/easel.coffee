@@ -13,8 +13,12 @@ class Easel
       canvas_attrs =
         id: layer.id
         'z-index': layer.index
+      style_attrs =
+        position: 'absolute'
+        border: '1px solid #000'
       canvas = jQuery('<canvas/>')
         .attr(canvas_attrs)
+        .css(style_attrs)
       @container.append(canvas)
 
 root.Easel = Easel
