@@ -1,24 +1,38 @@
-root = this
-class Easel
-  #layer = { id: "id for layer", index: "z-index" }
-  _layers: []
-  constructor: (@id) ->
-    @container = jQuery("##{@id}")
+window.module = (name, fn)->
+  if not @[name]?
+    this[name] = {}
+  if not @[name].module?
+    @[name].module = window.module
+  fn.apply(this[name], [])
 
-  addLayers: (layers) ->
-    @_layers.push layer for layer in layers
+@module "Easel", ->
+  class @Easel
+    #layer = { id: "id for layer", index: "z-index" }
+    layers: []
+    constructor: (@id) ->
+      @container = jQuery("##{@id}")
 
-  setup: ->
-    for layer in @_layers
+    addLayers: (layers) ->
+      @layers.push layer for layer in layers
+
+    setup: ->
+      for layer in @layers
+        @container.append layer.getCanvas()
+        layer.draw()
+
+  class @Layer
+    constructor: (obj) ->
+      @id = obj?.id
+      @index = obj?.index
+      @f_draw = obj?.f_draw
+
+    getCanvas: ->
       canvas_attrs =
-        id: layer.id
-        'z-index': layer.index
+        id: @id
+        'z-index': @index
       style_attrs =
         position: 'absolute'
         border: '1px solid #000'
       canvas = jQuery('<canvas/>')
         .attr(canvas_attrs)
         .css(style_attrs)
-      @container.append(canvas)
-
-root.Easel = Easel

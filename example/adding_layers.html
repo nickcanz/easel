@@ -8,11 +8,11 @@
     <div id='easel'></div>
     <script type='text/javascript'>
       //<![CDATA[
-        var my_easel = new Easel('easel');
+        var my_easel = new Easel.Easel('easel');
         my_easel.addLayers([
-          { id: 'back', index: 1},
-          { id: 'middle', index: 2},
-          { id: 'front', index: 3}
+          new Easel.Layer({ id: 'back', index: 1 }),
+          new Easel.Layer({ id: 'middle', index: 2 }),
+          new Easel.Layer({ id: 'front', index: 3 })
         ]);
         
         my_easel.setup();
