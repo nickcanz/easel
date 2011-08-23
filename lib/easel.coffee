@@ -17,22 +17,30 @@ window.module = (name, fn)->
 
     setup: ->
       for layer in @layers
-        @container.append layer.getCanvas()
+        @container.append layer.getCanvas @container.get(0)
         layer.draw()
 
   class @Layer
     constructor: (obj) ->
       @id = obj?.id
       @index = obj?.index
-      @f_draw = obj?.f_draw
+      @drawFunc = obj?.drawFunc
 
-    getCanvas: ->
+    getCanvas: (easelObj) ->
       canvas_attrs =
         id: @id
         'z-index': @index
+        width: easelObj.scrollWidth
+        height: easelObj.scrollHeight
       style_attrs =
         position: 'absolute'
-        border: '1px solid #000'
       canvas = jQuery('<canvas/>')
         .attr(canvas_attrs)
         .css(style_attrs)
+
+    draw: ->
+      ctx = document.getElementById(@id).getContext('2d')
+      ctx.beginPath()
+      @drawFunc(ctx)
+      ctx.closePath()
+      ctx.fill()

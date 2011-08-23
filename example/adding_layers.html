@@ -6,13 +6,32 @@
   </head>
   <body>
     <div id='easel'></div>
+    <style type='text/css'>
+      #easel {
+        height: 300px;
+        width: 300px;
+        margin: 0px auto;
+        border: 1px solid red; }
+    </style>
     <script type='text/javascript'>
       //<![CDATA[
         var my_easel = new Easel.Easel('easel');
+        var drawBackLayer = function (ctx) {
+          ctx.fillStyle = '#F00';
+          ctx.arc(0, 0, 75, 0, Math.PI*2, true);
+        };
+        var drawMiddleLayer = function (ctx) {
+          ctx.fillStyle = '#0F0';
+          ctx.arc(50, 50, 50, 0, Math.PI*2, true);
+        };
+        var drawFrontLayer = function (ctx) {
+          ctx.fillStyle = '#00F';
+          ctx.arc(100, 100, 50, 0, Math.PI*2, true);
+        };
         my_easel.addLayers([
-          new Easel.Layer({ id: 'back', index: 1 }),
-          new Easel.Layer({ id: 'middle', index: 2 }),
-          new Easel.Layer({ id: 'front', index: 3 })
+          new Easel.Layer({ id: 'back', index: 1, drawFunc: drawBackLayer }),
+          new Easel.Layer({ id: 'middle', index: 2, drawFunc: drawMiddleLayer }),
+          new Easel.Layer({ id: 'front', index: 3, drawFunc: drawFrontLayer })
         ]);
         
         my_easel.setup();
