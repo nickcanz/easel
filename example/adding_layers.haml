@@ -29,9 +29,9 @@
         ctx.arc(100, 100, 50, 0, Math.PI*2, true);
       };
       my_easel.addLayers([
-        new Easel.Layer({ id: 'back', index: 1, drawFunc: drawBackLayer }),
-        new Easel.Layer({ id: 'middle', index: 2, drawFunc: drawMiddleLayer }),
-        new Easel.Layer({ id: 'front', index: 3, drawFunc: drawFrontLayer })
+        new Easel.FillLayer({ id: 'back', index: 1, drawFunc: drawBackLayer }),
+        new Easel.FillLayer({ id: 'middle', index: 2, drawFunc: drawMiddleLayer }),
+        new Easel.FillLayer({ id: 'front', index: 3, drawFunc: drawFrontLayer })
       ]);
 
       my_easel.setup();

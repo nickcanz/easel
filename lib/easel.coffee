@@ -7,7 +7,6 @@ window.module = (name, fn)->
 
 @module "Easel", ->
   class @Easel
-    #layer = { id: "id for layer", index: "z-index" }
     layers: []
     constructor: (@id) ->
       @container = jQuery("##{@id}")
@@ -41,6 +40,21 @@ window.module = (name, fn)->
     draw: ->
       ctx = document.getElementById(@id).getContext('2d')
       ctx.beginPath()
+      ctx
+
+    animate: ->
+      this
+
+  class @StrokeLayer extends @Layer
+    draw: ->
+      ctx = super
+      @drawFunc(ctx)
+      ctx.closePath()
+      ctx.stroke()
+
+  class @FillLayer extends @Layer
+    draw: ->
+      ctx = super
       @drawFunc(ctx)
       ctx.closePath()
       ctx.fill()
