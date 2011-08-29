@@ -7,27 +7,31 @@ window.module = (name, fn)->
 
 @module "Easel", ->
   class @Easel
-    layers: []
     constructor: (@id) ->
       @container = jQuery("##{@id}")
+      @layers = []
+      this
 
     addLayers: (layers) ->
       @layers.push layer for layer in layers
+      this
 
     setup: ->
       for layer in @layers
-        @container.append layer.getCanvas @container.get(0)
+        @container.append layer.getCanvas(@container.get(0))
         layer.draw()
 
   class @Layer
     constructor: (obj) ->
-      @id = obj?.id
-      @index = obj?.index
-      @drawFunc = obj?.drawFunc
+      @id = obj.id
+      @index = obj.index
+      @drawFunc = obj.drawFunc
+      this
 
     getCanvas: (easelObj) ->
+      @domId = "#{easelObj.id}-#{@id}"
       canvas_attrs =
-        id: @id
+        id: @domId
         'z-index': @index
         width: easelObj.scrollWidth
         height: easelObj.scrollHeight
@@ -38,23 +42,17 @@ window.module = (name, fn)->
         .css(style_attrs)
 
     draw: ->
-      ctx = document.getElementById(@id).getContext('2d')
+      ctx = document.getElementById(@domId).getContext('2d') 
       ctx.beginPath()
-      ctx
+      @drawFunc(ctx)
+      ctx.closePath()
+      ctx.fill() if @isFill
+      ctx.stroke() if @isStroke
 
-    animate: ->
+    fill: (isFill) ->
+      @isFill = isFill ?= true
       this
 
-  class @StrokeLayer extends @Layer
-    draw: ->
-      ctx = super
-      @drawFunc(ctx)
-      ctx.closePath()
-      ctx.stroke()
-
-  class @FillLayer extends @Layer
-    draw: ->
-      ctx = super
-      @drawFunc(ctx)
-      ctx.closePath()
-      ctx.fill()
+    stroke: (isStroke) ->
+      @isStroke = isStroke ?= true
+      this
