@@ -5,13 +5,13 @@
     %script{ :src => '../../lib/easel.js', :type => 'text/javascript' }
   %body
     .example
-      %h3 Single Call to Fill 
-      %h4 (Expected: solid red circle)
+      %h3 Single Call to Stroke
+      %h4 (Expected: hollow blue circle)
       #example1.easel
 
     .example
       %h3 Fill defaults to true 
-      %h4 (Expected: solid red circle)
+      %h4 (Expected: hollow blue circle)
       #example2.easel
 
     .example
@@ -21,7 +21,7 @@
 
     .example
       %h3 Set fill to false then true 
-      %h4 (Expected: solid red circle)
+      %h4 (Expected: hollow blue circle)
       #example4.easel
 
 
@@ -42,21 +42,21 @@
 
     :javascript
       var drawCircle = function (ctx) {
-        ctx.fillStyle = '#F00';
+        ctx.strokeStyle = '#00F';
         ctx.arc(150, 150, 50, 0, Math.PI*2, true);
       };
       var example1 = new Easel.Easel('example1').addLayers([
-        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).fill(true)
+        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).stroke(true)
       ]).setup();
 
       var example2 = new Easel.Easel('example2').addLayers([
-        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).fill()
+        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).stroke()
       ]).setup();
 
       var example3 = new Easel.Easel('example3').addLayers([
-        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).fill(false)
+        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).stroke(false)
       ]).setup();
 
       var example4 = new Easel.Easel('example4').addLayers([
-        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).fill(false).fill(true)
+        new Easel.Layer({ id: 'circle', index: 1, drawFunc: drawCircle }).stroke(false).stroke(true)
       ]).setup();
